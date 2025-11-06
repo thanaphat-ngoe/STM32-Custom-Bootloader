@@ -23,14 +23,14 @@ uint32_t system_get_ticks(void) {
 }
 
 const struct rcc_clock_scale pll_32mhz_config = {
-    .pll_mul = 1,
-    .pll_div = 1,
+    .pll_mul = RCC_CFGR_PLLMUL_MUL4,
+    .pll_div = RCC_CFGR_PLLDIV_DIV2,
     .pll_source = RCC_CFGR_PLLSRC_HSI16_CLK,
     .flash_waitstates = 1,
     .voltage_scale = PWR_SCALE1,
-    .hpre = 0,
-    .ppre1 = 0,
-    .ppre2 = 0,
+    .hpre = RCC_CFGR_HPRE_NODIV,
+    .ppre1 = RCC_CFGR_HPRE_NODIV,
+    .ppre2 = RCC_CFGR_HPRE_NODIV,
     .ahb_frequency = 32000000,
     .apb1_frequency = 32000000,
     .apb2_frequency = 32000000,

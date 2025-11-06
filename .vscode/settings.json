@@ -10,6 +10,10 @@
         "pwr.h": "c",
         "pwr_common_v2.h": "c",
         "scb.h": "c",
-        "system.h": "c"
+        "system.h": "c",
+        "common-defines.h": "c",
+        "nvic.h": "c",
+        "usart.h": "c",
+        "uart.h": "c"
     }
 }

@@ -18,6 +18,7 @@ Discarded input sections
  .group         0x00000000        0xc src/firmware_bootloader.o
  .group         0x00000000        0xc src/firmware_bootloader.o
  .group         0x00000000        0xc src/firmware_bootloader.o
+ .group         0x00000000        0xc src/firmware_bootloader.o
  .text          0x00000000        0x0 src/firmware_bootloader.o
  .data          0x00000000        0x0 src/firmware_bootloader.o
  .bss           0x00000000        0x0 src/firmware_bootloader.o
@@ -39,12 +40,14 @@ Discarded input sections
  .data          0x00000000        0x0 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .bss           0x00000000        0x0 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x52 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+ .debug_macro   0x00000000       0x1c ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x22 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x51 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000      0x103 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x6a ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000      0x1df ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x22 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+ .debug_macro   0x00000000       0xe8 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0x49 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
  .debug_macro   0x00000000       0xca ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
 
@@ -226,36 +229,35 @@ LOAD linker stubs
  .debug_rnglists
                 0x00000022       0x20 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
 
-.debug_macro    0x00000000     0x21f2
- .debug_macro   0x00000000       0xd8 src/firmware_bootloader.o
- .debug_macro   0x000000d8      0xaae src/firmware_bootloader.o
- .debug_macro   0x00000b86       0x22 src/firmware_bootloader.o
- .debug_macro   0x00000ba8       0x56 src/firmware_bootloader.o
- .debug_macro   0x00000bfe       0x51 src/firmware_bootloader.o
- .debug_macro   0x00000c4f      0x103 src/firmware_bootloader.o
- .debug_macro   0x00000d52       0x6a src/firmware_bootloader.o
- .debug_macro   0x00000dbc      0x1df src/firmware_bootloader.o
- .debug_macro   0x00000f9b       0x22 src/firmware_bootloader.o
- .debug_macro   0x00000fbd       0x52 src/firmware_bootloader.o
- .debug_macro   0x0000100f      0x166 src/firmware_bootloader.o
- .debug_macro   0x00001175      0x100 src/firmware_bootloader.o
- .debug_macro   0x00001275       0x49 src/firmware_bootloader.o
- .debug_macro   0x000012be       0xca src/firmware_bootloader.o
- .debug_macro   0x00001388       0xcf ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
- .debug_macro   0x00001457      0xaa2 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
- .debug_macro   0x00001ef9       0x1c ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
- .debug_macro   0x00001f15       0x56 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
- .debug_macro   0x00001f6b       0xe8 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
- .debug_macro   0x00002053      0x19f ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+.debug_macro    0x00000000     0x20ed
+ .debug_macro   0x00000000       0xd3 src/firmware_bootloader.o
+ .debug_macro   0x000000d3      0xaae src/firmware_bootloader.o
+ .debug_macro   0x00000b81       0x52 src/firmware_bootloader.o
+ .debug_macro   0x00000bd3      0x166 src/firmware_bootloader.o
+ .debug_macro   0x00000d39       0x1c src/firmware_bootloader.o
+ .debug_macro   0x00000d55       0x22 src/firmware_bootloader.o
+ .debug_macro   0x00000d77       0x56 src/firmware_bootloader.o
+ .debug_macro   0x00000dcd       0x51 src/firmware_bootloader.o
+ .debug_macro   0x00000e1e      0x103 src/firmware_bootloader.o
+ .debug_macro   0x00000f21       0x6a src/firmware_bootloader.o
+ .debug_macro   0x00000f8b      0x1df src/firmware_bootloader.o
+ .debug_macro   0x0000116a       0x22 src/firmware_bootloader.o
+ .debug_macro   0x0000118c       0xe8 src/firmware_bootloader.o
+ .debug_macro   0x00001274       0x49 src/firmware_bootloader.o
+ .debug_macro   0x000012bd       0xca src/firmware_bootloader.o
+ .debug_macro   0x00001387       0xcf ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+ .debug_macro   0x00001456      0xaa2 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+ .debug_macro   0x00001ef8       0x56 ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+ .debug_macro   0x00001f4e      0x19f ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
 
-.debug_line     0x00000000      0x753
- .debug_line    0x00000000      0x348 src/firmware_bootloader.o
- .debug_line    0x00000348      0x40b ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+.debug_line     0x00000000      0x73b
+ .debug_line    0x00000000      0x330 src/firmware_bootloader.o
+ .debug_line    0x00000330      0x40b ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
 
-.debug_str      0x00000000     0x5ddc
- .debug_str     0x00000000     0x5ddc src/firmware_bootloader.o
-                               0x509e (size before relaxing)
- .debug_str     0x00005ddc     0x542e ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
+.debug_str      0x00000000     0x5dc6
+ .debug_str     0x00000000     0x5dc6 src/firmware_bootloader.o
+                               0x5088 (size before relaxing)
+ .debug_str     0x00005dc6     0x542e ../libopencm3/lib/libopencm3_stm32l0.a(vector.o)
 
 .comment        0x00000000       0x46
  .comment       0x00000000       0x46 src/firmware_bootloader.o

@@ -59,6 +59,7 @@ CSTD		?= -std=c11
 OBJS		+= $(SRC_DIR)/$(BINARY).o
 OBJS		+= $(SRC_DIR)/firmware_bootloader.o
 OBJS		+= $(SHARED_SRC_DIR)/core/system.o
+OBJS		+= $(SHARED_SRC_DIR)/core/uart.o
 
 ###############################################################################
 # C flags
