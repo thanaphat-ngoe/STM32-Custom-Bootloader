@@ -23,7 +23,7 @@ void uart_setup(void) {
     rcc_periph_clock_enable(RCC_USART2);
     usart_set_flow_control(USART2, USART_FLOWCONTROL_NONE);
     usart_set_databits(USART2, 8);
-    *(volatile uint32_t*)(0X4000440CU) = (32000000U)/BAUD_RATE; // Baud Rate Setup
+    *(volatile uint32_t*)(0X4000440CU) = (32000000U)/BAUD_RATE;
     usart_set_parity(USART2, USART_PARITY_NONE);
     usart_set_stopbits(USART2, USART_STOPBITS_1);
     usart_set_mode(USART2, USART_MODE_TX_RX);
