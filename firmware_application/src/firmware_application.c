@@ -1,9 +1,9 @@
-#include "core/system.h"
-#include "core/uart.h"
-
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/cm3/scb.h>
+
+#include "core/system.h"
+#include "core/uart.h"
 
 #define BOOTLOADER_SIZE (0x8000U) // 32 KByte (32768 Byte)
 

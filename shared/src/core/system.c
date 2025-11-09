@@ -1,10 +1,10 @@
-#include "core/system.h"
-
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/pwr.h>
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/cm3/vector.h>
+
+#include "core/system.h"
 
 static volatile uint32_t ticks = 0;
 
