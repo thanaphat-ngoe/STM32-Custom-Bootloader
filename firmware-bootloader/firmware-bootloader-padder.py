@@ -1,5 +1,5 @@
 BOOTLOADER_SIZE = 0x8000
-BOOTLOADER_FILE = "firmware_bootloader.bin"
+BOOTLOADER_FILE = "firmware-bootloader.bin"
 
 with open(BOOTLOADER_FILE, "rb") as f:
     raw_file = f.read()

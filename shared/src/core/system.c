@@ -61,3 +61,8 @@ void system_setup(void) {
     pll_32mhz_clock_setup();
     systick_setup();
 }
+
+void system_delay(uint32_t millisecond) {
+    uint32_t end_time = system_get_ticks() + millisecond;
+    while (system_get_ticks() < end_time); // Loop
+}

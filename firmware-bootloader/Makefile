@@ -7,11 +7,11 @@ endif
 # We are building from inside src/
 SRC_DIR     	= src
 INC_DIR     	= inc
-OPENCM3_DIR 	= ../libopencm3
 SHARED_SRC_DIR  = ../shared/src
 SHARED_INC_DIR  = ../shared/inc
+OPENCM3_DIR 	= ../libopencm3
 
-BINARY = firmware_application
+BINARY = firmware-bootloader
 
 ###############################################################################
 # Basic Device Setup
@@ -57,10 +57,11 @@ CSTD		?= -std=c11
 # Source files
 
 OBJS		+= $(SRC_DIR)/$(BINARY).o
-OBJS		+= $(SRC_DIR)/firmware_bootloader.o
+OBJS		+= $(SRC_DIR)/transport-layer.o
 OBJS		+= $(SHARED_SRC_DIR)/core/system.o
 OBJS		+= $(SHARED_SRC_DIR)/core/uart.o
 OBJS		+= $(SHARED_SRC_DIR)/core/ring-buffer.o
+OBJS		+= $(SHARED_SRC_DIR)/core/crc8.o
 
 ###############################################################################
 # C flags
@@ -142,6 +143,7 @@ print-%:
 %.bin: %.elf
 	@#printf "  OBJCOPY $(*).bin\n"
 	$(Q)$(OBJCOPY) -Obinary $(*).elf $(*).bin
+	$(Q)python3 firmware-bootloader-padder.py
 
 %.hex: %.elf
 	@#printf "  OBJCOPY $(*).hex\n"

@@ -3,7 +3,7 @@
 		{
 			"name": "Cortex Debug",
 			"cwd": "${workspaceFolder}",
-			"executable": "${workspaceFolder}/firmware_application/firmware_application.elf",
+			"executable": "${workspaceFolder}/firmware-bootloader/firmware-bootloader.elf",
 			"request": "launch",
 			"type": "cortex-debug",
 			"runToEntryPoint": "main",
@@ -16,7 +16,7 @@
                 "/opt/homebrew/share/openocd/scripts/target/stm32l0.cfg"
             ],
 			"preLaunchCommands": [
-				"monitor program ${workspaceFolder}/firmware_application/firmware_application.elf verify reset"
+				"monitor program ${workspaceFolder}/firmware-bootloader/firmware-bootloader.elf verify reset"
 			],
 			"internalConsoleOptions": "neverOpen",
 		}

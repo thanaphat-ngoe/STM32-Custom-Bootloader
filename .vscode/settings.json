@@ -5,6 +5,17 @@
         "usart.h": "c",
         "usart_common_v2.h": "c",
         "usart_common_all.h": "c",
-        "uart.h": "c"
-    }
+        "uart.h": "c",
+        "common-defines.h": "c",
+        "memorymap.h": "c",
+        "scb.h": "c",
+        "system.h": "c",
+        "vector.h": "c",
+        "string_view": "c",
+        "array": "c",
+        "string": "c",
+        "span": "c",
+        "transport-layer.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
 }

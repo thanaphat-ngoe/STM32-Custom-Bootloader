@@ -8,5 +8,6 @@
 
 void system_setup(void);
 uint32_t system_get_ticks(void);
+void system_delay(uint32_t millisecond);
 
 #endif
