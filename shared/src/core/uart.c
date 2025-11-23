@@ -27,13 +27,20 @@ void uart_setup(void) {
     rcc_periph_clock_enable(RCC_USART2);
     usart_set_flow_control(USART2, USART_FLOWCONTROL_NONE);
     usart_set_databits(USART2, 8);
-    *(volatile uint32_t*)(0X4000440CU) = (32000000U)/BAUD_RATE;
+    *(volatile uint32_t*)(0X4000440CU) = (32000000U)/BAUD_RATE; // Setup baud rate
     usart_set_parity(USART2, USART_PARITY_NONE);
     usart_set_stopbits(USART2, USART_STOPBITS_1);
     usart_set_mode(USART2, USART_MODE_TX_RX);
     usart_enable_rx_interrupt(USART2);
     nvic_enable_irq(NVIC_USART2_IRQ);
     usart_enable(USART2);
+}
+
+void uart_setup_reset(void) {
+    usart_disable_rx_interrupt(USART2);
+    usart_disable(USART2);
+    nvic_disable_irq(NVIC_USART2_IRQ);
+    rcc_periph_clock_disable(RCC_USART2);
 }
 
 void uart_write(uint8_t* data, const uint32_t length) {

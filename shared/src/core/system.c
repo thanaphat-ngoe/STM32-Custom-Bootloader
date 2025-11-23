@@ -6,7 +6,7 @@
 
 #include "core/system.h"
 
-static volatile uint32_t ticks = 0;
+static volatile uint64_t ticks = 0;
 
 void sys_tick_handler(void) {
     ticks++;
@@ -18,7 +18,7 @@ static void systick_setup(void) {
     systick_interrupt_enable();
 }
 
-uint32_t system_get_ticks(void) {
+uint64_t system_get_ticks(void) {
     return ticks;
 }
 
@@ -62,7 +62,13 @@ void system_setup(void) {
     systick_setup();
 }
 
-void system_delay(uint32_t millisecond) {
-    uint32_t end_time = system_get_ticks() + millisecond;
+void system_setup_reset(void) {
+    systick_interrupt_disable();
+    systick_counter_disable();
+    systick_clear();
+}
+
+void system_delay(uint64_t millisecond) {
+    uint64_t end_time = system_get_ticks() + millisecond;
     while (system_get_ticks() < end_time); // Loop
 }

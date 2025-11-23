@@ -1,6 +1,15 @@
-import serial
+import serial # pyright: ignore[reportMissingModuleSource]
 
 serial = serial.Serial(port='/dev/tty.usbmodem11303', baudrate=115200)
+
+
+
+
+
+
+
+
+
 
 while(True):
     segment_length = serial.read(1)

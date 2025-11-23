@@ -7,7 +7,8 @@
 #define SYSTICK_FREQ (1000)
 
 void system_setup(void);
-uint32_t system_get_ticks(void);
-void system_delay(uint32_t millisecond);
+void system_setup_reset(void);
+uint64_t system_get_ticks(void);
+void system_delay(uint64_t millisecond);
 
 #endif

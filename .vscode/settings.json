@@ -15,7 +15,14 @@
         "array": "c",
         "string": "c",
         "span": "c",
-        "transport-layer.h": "c"
+        "transport-layer.h": "c",
+        "flash.h": "c",
+        "flash_common_l01.h": "c",
+        "flash_common_all.h": "c",
+        "common.h": "c",
+        "bl-flash.h": "c",
+        "timer.h": "c",
+        "cstdint": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }
