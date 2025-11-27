@@ -1,7 +1,7 @@
 {
 	"configurations": [
 		{
-			"name": "Cortex Debug",
+			"name": "Bootloader Cortex Debug",
 			"cwd": "${workspaceFolder}",
 			"executable": "${workspaceFolder}/firmware-bootloader/firmware-bootloader.elf",
 			"request": "launch",
@@ -17,6 +17,27 @@
             ],
 			"preLaunchCommands": [
 				"monitor program ${workspaceFolder}/firmware-bootloader/firmware-bootloader.elf verify reset"
+			],
+			"internalConsoleOptions": "neverOpen",
+		},
+
+		{
+			"name": "Application Cortex Debug",
+			"cwd": "${workspaceFolder}",
+			"executable": "${workspaceFolder}/firmware-application/firmware-application.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"runToEntryPoint": "main",
+			"device": "stm32l0",
+			"servertype": "openocd",
+			"serverpath": "/opt/homebrew/bin/openocd",
+			"gdbPath": "/opt/homebrew/bin/gdb",
+            "configFiles": [
+                "/opt/homebrew/share/openocd/scripts/interface/stlink.cfg",
+                "/opt/homebrew/share/openocd/scripts/target/stm32l0.cfg"
+            ],
+			"preLaunchCommands": [
+				"monitor program ${workspaceFolder}/firmware-application/firmware-application.elf verify reset"
 			],
 			"internalConsoleOptions": "neverOpen",
 		}

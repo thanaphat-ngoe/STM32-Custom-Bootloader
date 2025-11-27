@@ -67,7 +67,10 @@ bool tl_is_single_byte_segment(const tl_segment_t* segment, const uint8_t byte) 
         return false;
     }
 
-    if ((segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) && segment->segment_type != 0) {
+    if (
+        (segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) 
+        && segment->segment_type != 0
+    ) {
         return false;
     }
 

@@ -20,7 +20,7 @@
 #define TX_PIN    (GPIO2)
 #define RX_PIN    (GPIO3)
 
-#define DEVICE_ID (0x42)
+#define DEVICE_ID (0x01)
 
 #define SYNC_SEQ_0 (0xc4)
 #define SYNC_SEQ_1 (0x55)
@@ -81,7 +81,7 @@ static bool is_device_id_message(const tl_segment_t* segment) {
         return false;
     }
 
-    if ((segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) && segment->segment_type != 0) {
+    if ((segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) || segment->segment_type != 0) {
         return false;
     }
 
@@ -103,7 +103,7 @@ static bool is_fw_length_message(const tl_segment_t* segment) {
         return false;
     }
 
-    if ((segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) && segment->segment_type != 0) {
+    if ((segment->segment_type == SEGMENT_ACK || segment->segment_type == SEGMENT_RETX) || segment->segment_type != 0) {
         return false;
     }
 
@@ -125,147 +125,158 @@ int main(void) {
     gpio_setup();
     uart_setup();
     tl_setup();
-    timer_setup(&timer, DEFAULT_TIMEOUT, false);
+    // timer_setup(&timer, DEFAULT_TIMEOUT, false);
 
-    while (state != BL_AL_STATE_Done) {
-        if (state == BL_AL_STATE_Sync) {
-            if (uart_data_available()) {
-                sync_seq[0] = sync_seq[1];
-                sync_seq[1] = sync_seq[2];
-                sync_seq[2] = sync_seq[3];
-                sync_seq[3] = uart_read_byte();
+    // while (state != BL_AL_STATE_Done) {
+    //     if (state == BL_AL_STATE_Sync) {
+    //         if (uart_data_available()) {
+    //             sync_seq[0] = sync_seq[1];
+    //             sync_seq[1] = sync_seq[2];
+    //             sync_seq[2] = sync_seq[3];
+    //             sync_seq[3] = uart_read_byte();
 
-                bool is_match = sync_seq[0] == SYNC_SEQ_0;
-                is_match = is_match && (sync_seq[1] == SYNC_SEQ_1);
-                is_match = is_match && (sync_seq[2] == SYNC_SEQ_2);
-                is_match = is_match && (sync_seq[3] == SYNC_SEQ_3);
+    //             bool is_match = sync_seq[0] == SYNC_SEQ_0;
+    //             is_match = is_match && (sync_seq[1] == SYNC_SEQ_1);
+    //             is_match = is_match && (sync_seq[2] == SYNC_SEQ_2);
+    //             is_match = is_match && (sync_seq[3] == SYNC_SEQ_3);
             
-                if (is_match) {
-                    tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_SEQ_OBSERVED);
-                    tl_write(&temp_segment);
-                    timer_reset(&timer);
-                    state = BL_AL_STATE_WaitForUpdateReq;
-                } else {
-                    check_for_timeout();
-                }
-            } else {
-                check_for_timeout();
-            }
-            continue;
-        }
+    //             if (is_match) {
+    //                 tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_SEQ_OBSERVED);
+    //                 tl_write(&temp_segment);
+    //                 timer_reset(&timer);
+    //                 state = BL_AL_STATE_WaitForUpdateReq;
+    //             } else {
+    //                 check_for_timeout();
+    //             }
+    //         } else {
+    //             check_for_timeout();
+    //         }
+    //         continue;
+    //     }
 
-        tl_update();
+    //     tl_update();
 
-        switch (state) {
-            case BL_AL_STATE_WaitForUpdateReq: {
-                if (tl_segment_available()) {
-                    tl_read(&temp_segment);
+    //     switch (state) {
+    //         case BL_AL_STATE_WaitForUpdateReq: {
+    //             if (tl_segment_available()) {
+    //                 tl_read(&temp_segment);
 
-                    if (tl_is_single_byte_segment(&temp_segment, BL_AL_MESSAGE_FW_UPDATE_REQ)) {
-                        timer_reset(&timer);
-                        tl_create_single_byte_segment(&temp_segment,  BL_AL_MESSAGE_FW_UPDATE_RES);
-                        tl_write(&temp_segment);
-                        state = BL_AL_STATE_DeviceIDReq;
-                    } else {
-                        bootloading_failed();
-                    }
-                } else {
-                    check_for_timeout();
-                }
-            } break;
+    //                 if (tl_is_single_byte_segment(&temp_segment, BL_AL_MESSAGE_FW_UPDATE_REQ)) {
+    //                     timer_reset(&timer);
+    //                     tl_create_single_byte_segment(&temp_segment,  BL_AL_MESSAGE_FW_UPDATE_RES);
+    //                     tl_write(&temp_segment);
+    //                     state = BL_AL_STATE_DeviceIDReq;
+    //                 } else {
+    //                     bootloading_failed();
+    //                 }
+    //             } else {
+    //                 check_for_timeout();
+    //             }
+    //         } break;
             
-            case BL_AL_STATE_DeviceIDReq: {
-                timer_reset(&timer);
-                tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_DEVICE_ID_REQ);
-                tl_write(&temp_segment);
-                state = BL_AL_STATE_DeviceIDRes;
-            } break;
+    //         case BL_AL_STATE_DeviceIDReq: {
+    //             timer_reset(&timer);
+    //             tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_DEVICE_ID_REQ);
+    //             tl_write(&temp_segment);
+    //             state = BL_AL_STATE_DeviceIDRes;
+    //         } break;
             
-            case BL_AL_STATE_DeviceIDRes: {
-                if (tl_segment_available()) {
-                    tl_read(&temp_segment);
+    //         case BL_AL_STATE_DeviceIDRes: {
+    //             if (tl_segment_available()) {
+    //                 tl_read(&temp_segment);
 
-                    if (is_device_id_message(&temp_segment) && temp_segment.data[1] == DEVICE_ID) {
-                        timer_reset(&timer);
-                        state = BL_AL_STATE_FirmwareLengthReq;
-                    } else {
-                        bootloading_failed();
-                    }
-                } else {
-                    check_for_timeout();
-                }
-            } break;
+    //                 if (is_device_id_message(&temp_segment) && temp_segment.data[1] == DEVICE_ID) {
+    //                     timer_reset(&timer);
+    //                     state = BL_AL_STATE_FirmwareLengthReq;
+    //                 } else {
+    //                     bootloading_failed();
+    //                 }
+    //             } else {
+    //                 check_for_timeout();
+    //             }
+    //         } break;
             
-            case BL_AL_STATE_FirmwareLengthReq: {
-                timer_reset(&timer);
-                tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_FW_LENGTH_REQ);
-                tl_write(&temp_segment);
-                state = BL_AL_STATE_FirmwareLengthRes;
-            } break;
+    //         case BL_AL_STATE_FirmwareLengthReq: {
+    //             timer_reset(&timer);
+    //             tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_FW_LENGTH_REQ);
+    //             tl_write(&temp_segment);
+    //             state = BL_AL_STATE_FirmwareLengthRes;
+    //         } break;
             
-            case BL_AL_STATE_FirmwareLengthRes: {
-                if (tl_segment_available()) {
-                    tl_read(&temp_segment);
-                    fw_size = (
-                        (temp_segment.data[1])       |
-                        (temp_segment.data[2] << 8)  |
-                        (temp_segment.data[3] << 16) |
-                        (temp_segment.data[4] << 24) 
-                    );
+    //         case BL_AL_STATE_FirmwareLengthRes: {
+    //             if (tl_segment_available()) {
+    //                 tl_read(&temp_segment);
+    //                 fw_size = (
+    //                     (temp_segment.data[1])       |
+    //                     (temp_segment.data[2] << 8)  |
+    //                     (temp_segment.data[3] << 16) |
+    //                     (temp_segment.data[4] << 24) 
+    //                 );
 
-                    if (is_fw_length_message(&temp_segment) && (fw_size <= MAX_FIRMWARE_LENGTH) && (fw_size % 4 == 0)) {
-                        state = BL_AL_STATE_EraseApplication;
-                    } else {
-                        bootloading_failed();
-                    }
-                } else {
-                    check_for_timeout();
-                }
-            } break;
+    //                 if (is_fw_length_message(&temp_segment) && (fw_size <= MAX_FIRMWARE_LENGTH) && (fw_size % 4 == 0)) {
+    //                     state = BL_AL_STATE_EraseApplication;
+    //                 } else {
+    //                     bootloading_failed();
+    //                 }
+    //             } else {
+    //                 check_for_timeout();
+    //             }
+    //         } break;
             
-            case BL_AL_STATE_EraseApplication: {
-                BL_FLASH_ERASE_Main_Application();
-                timer_reset(&timer);
-                tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_READY_FOR_DATA);
-                tl_write(&temp_segment);
-                state = BL_AL_STATE_ReceiveFirmware; 
-            } break;
+    //         case BL_AL_STATE_EraseApplication: {
+    //             BL_FLASH_ERASE_Main_Application();
+    //             timer_reset(&timer);
+    //             tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_READY_FOR_DATA);
+    //             tl_write(&temp_segment);
+    //             state = BL_AL_STATE_ReceiveFirmware; 
+    //         } break;
             
-            case BL_AL_STATE_ReceiveFirmware: {
-                if (tl_segment_available()) {
-                    tl_read(&temp_segment);
+    //         case BL_AL_STATE_ReceiveFirmware: {
+    //             if (tl_segment_available()) {
+    //                 tl_read(&temp_segment);
                     
-                    for (uint8_t i = 0; i < temp_segment.segment_data_size - 4; i = i + 4) {
-                        uint32_t firmware_data = (
-                            (temp_segment.data[i])           |
-                            (temp_segment.data[i + 1] << 8)  |
-                            (temp_segment.data[i + 2] << 16) |
-                            (temp_segment.data[i + 3] << 24) 
-                        ); 
-                        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, MAIN_APPLICATION_START_ADDRESS + bytes_written, firmware_data);
-                    }
-                    timer_reset(&timer);
-                    bytes_written += 4;
+    //                 for (uint8_t i = 0; i < temp_segment.segment_data_size; i = i + 4) {
+    //                     uint32_t firmware_data = (
+    //                         (temp_segment.data[i])           |
+    //                         (temp_segment.data[i + 1] << 8)  |
+    //                         (temp_segment.data[i + 2] << 16) |
+    //                         (temp_segment.data[i + 3] << 24) 
+    //                     ); 
+    //                     HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, MAIN_APPLICATION_START_ADDRESS + bytes_written, firmware_data);
+    //                 }
+    //                 timer_reset(&timer);
+    //                 bytes_written += 4;
 
-                    if (bytes_written >= MAX_FIRMWARE_LENGTH) {
-                        tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_UPDATE_SUCCESSFUL);
-                        tl_write(&temp_segment);
-                        state = BL_AL_STATE_Done;
-                    } else {
-                        tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_READY_FOR_DATA);
-                        tl_write(&temp_segment);
-                    }
-                } else {
-                    check_for_timeout();
-                }
-            } break;
+    //                 if (bytes_written >= MAX_FIRMWARE_LENGTH) {
+    //                     tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_UPDATE_SUCCESSFUL);
+    //                     tl_write(&temp_segment);
+    //                     state = BL_AL_STATE_Done;
+    //                 } else {
+    //                     tl_create_single_byte_segment(&temp_segment, BL_AL_MESSAGE_READY_FOR_DATA);
+    //                     tl_write(&temp_segment);
+    //                 }
+    //             } else {
+    //                 check_for_timeout();
+    //             }
+    //         } break;
 
-            default: {
-                state = BL_AL_STATE_Sync;
-            }
-        }
-    }
+    //         default: {
+    //             state = BL_AL_STATE_Sync;
+    //         }
+    //     }
+    // }
     
+    // tl_create_retx_segment(&temp_segment);
+
+    // // while (true) {
+    // //     tl_write(&temp_segment);
+    // //     system_delay(5000);
+    // // }
+
+    while (true) {
+        tl_update();
+    }
+
     // TODO: Reset all system before passing control over to the main application
     system_delay(500);
     uart_setup_reset();

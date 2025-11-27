@@ -66,6 +66,7 @@ void system_setup_reset(void) {
     systick_interrupt_disable();
     systick_counter_disable();
     systick_clear();
+    rcc_set_sysclk_source(RCC_MSI);
 }
 
 void system_delay(uint64_t millisecond) {

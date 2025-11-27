@@ -3,8 +3,8 @@
 
 #include "common-defines.h"
 
+#define SEGMENT_DATA_SIZE (32) // Up to 32 Bytes
 #define SEGMENT_TYPE_SIZE (1) // 1 Byte
-#define SEGMENT_DATA_SIZE (32) // Up to 32 Byte
 #define SEGMENT_LENGTH_SIZE (1) // 1 Byte
 #define SEGMENT_CRC_SIZE (1) // 1 Byte
 #define SEGMENT_LENGTH (SEGMENT_DATA_SIZE + SEGMENT_LENGTH_SIZE + SEGMENT_CRC_SIZE + SEGMENT_TYPE_SIZE) // Up to 35 Byte
