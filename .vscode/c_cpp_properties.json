@@ -15,19 +15,6 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-arm"
-        },
-        {
-            "name": "Firmware Programmer",
-            "includePath": [
-                "${workspaceFolder}/firmware-programmer/include"
-            ],
-            "defines": [
-                "DESKTOP_BUILD"
-            ],
-            "compilerPath": "/Library/Developer/CommandLineTools/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "macos-gcc-arm64"
         }
     ],
     "version": 4
