@@ -1,7 +1,7 @@
 # Custom Bootloader Implmentation on STM32L053R8
 
-This project are the part of learning Embedded System as a 4th-Year Computer Engineering Student <br>
-
+This project are the part of self-learning in Embedded System as a 4th-Year Computer Engineering Student <br>
+Note! This project still be in progress 
 ---
 
 ## Goal
@@ -20,3 +20,9 @@ Implement a firmware encryption, firmware integrity and firmware upload capabili
 
 ## Hardware Memory Map
 ![STM32L053R8_Overview_Hardware_Memory_Map](pictures/STM32L053R8_Overview_Hardware_Memory_Map.png)
+
+## Learning Resource & Reference
+1. STM32L053R Datasheet
+2. [YouTube: Low Byte Productions (Blinky To Bootloader: Bare Metal Programming Series)](https://youtube.com/playlist?list=PLP29wDx6QmW7HaCrRydOnxcy8QmW0SNdQ&si=wKLBIT67plQATxr1)
+3. [Website: DEEPBLUE MBEDDED](https://deepbluembedded.com/stm32-hal-library-tutorial-examples/)
+4. [YouTube: Embedded Systems and Deep Learning](https://youtube.com/playlist?list=PLRJhV4hUhIymmp5CCeIFPyxbknsdcXCc8&si=Y3LhIALU49Qpa-L7)
